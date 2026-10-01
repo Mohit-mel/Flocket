@@ -533,7 +533,7 @@
     const field = el('div', 'field');
     const ta = document.createElement('textarea');
     ta.id = 'f-' + q.id;
-    ta.rows = 2;
+    ta.rows = 1;
     ta.setAttribute('aria-labelledby', 'ql-' + q.id);
     ta.placeholder = q.placeholder || 'Type your answer';
     ta.value = A[q.id] || '';

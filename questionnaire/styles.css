@@ -283,12 +283,13 @@ kbd {
   width: 100%;
   border: 0; outline: 0;
   background: transparent;
-  padding: 6px 0 12px;
+  padding: 4px 0 8px;
   font-size: clamp(1.15rem, 1rem + 0.6vw, 1.45rem);
+  line-height: 1.4;
   color: var(--ink);
   resize: none;
 }
-.field textarea { min-height: 3.2em; line-height: 1.45; max-height: 40vh; }
+.field textarea { display: block; max-height: 40vh; overflow-y: auto; }
 .field input::placeholder, .field textarea::placeholder { color: rgba(17, 24, 22, 0.32); }
 .field::before, .field::after { content: ""; position: absolute; left: 0; bottom: 0; height: 2px; border-radius: 2px; }
 .field::before { right: 0; background: var(--line); }
