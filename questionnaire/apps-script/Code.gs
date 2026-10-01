@@ -19,6 +19,21 @@ const NOTIFY_EMAIL = '';
 
 const META_COLUMNS = ['submittedAt', 'responseId', 'startedAt', 'minutesSpent', 'questionnaireVersion'];
 
+/**
+ * Run this once from the editor (select "setup" in the toolbar, then Run).
+ * It asks for permissions and creates both tabs, so the first real
+ * response doesn't have to.
+ */
+function setup() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const responses = ss.getSheetByName(RESPONSES_SHEET) || ss.insertSheet(RESPONSES_SHEET, 0);
+  ensureHeaders_(responses, META_COLUMNS);
+  if (!ss.getSheetByName(KEY_SHEET)) writeKey_(ss, []);
+  const blank = ss.getSheetByName('Sheet1');
+  if (blank && blank.getLastRow() === 0 && ss.getSheets().length > 2) ss.deleteSheet(blank);
+  Logger.log('Ready. Now use Deploy → New deployment → Web app.');
+}
+
 function doPost(e) {
   const lock = LockService.getScriptLock();
   lock.waitLock(30000);
@@ -45,6 +60,7 @@ function doPost(e) {
     Object.keys(data.answers).forEach(function (k) { record[k] = data.answers[k]; });
 
     sheet.appendRow(headers.map(function (h) { return record[h] == null ? '' : record[h]; }));
+    sheet.getRange(sheet.getLastRow(), 1, 1, headers.length).setWrap(true).setVerticalAlignment('top');
     if (Array.isArray(data.schema)) writeKey_(ss, data.schema);
     if (NOTIFY_EMAIL) notify_(data);
 
