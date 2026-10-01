@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flocket Brand Discovery</title>
+<meta name="description" content="A short questionnaire that shapes the new Flocket brand.">
+<meta name="theme-color" content="#e8f2fc">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/logo/flocket-icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Inter+Tight:wght@600&family=Instrument+Serif:ital@0;1&family=Nunito:wght@800;900&family=JetBrains+Mono:wght@500&family=Bricolage+Grotesque:opsz,wght@12..96,700&display=swap">
+<script>
+  /* SF Pro Display where the device has it (all Apple devices), otherwise Poppins with tighter tracking. */
+  (function () {
+    var root = document.documentElement;
+    var apple = /Mac|iPhone|iPad|iPod/.test(navigator.platform || navigator.userAgent);
+    var hasSF = apple;
+    try {
+      var ctx = document.createElement('canvas').getContext('2d');
+      var probe = 'mmmmmmmmmlli1WQ@#';
+      ctx.font = '72px monospace';
+      var base = ctx.measureText(probe).width;
+      ctx.font = '72px "SF Pro Display", monospace';
+      if (ctx.measureText(probe).width !== base) hasSF = true;
+    } catch (e) {}
+    root.classList.add(hasSF ? 'type-sf' : 'type-poppins');
+  })();
+</script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="scene" aria-hidden="true">
+  <div class="bg" id="bgA"></div>
+  <div class="bg" id="bgB"></div>
+  <div class="scene-wash"></div>
+  <canvas id="flight"></canvas>
+</div>
+
+<div class="loader" id="loader" role="status" aria-live="polite">
+  <div class="loader-inner">
+    <div class="glass-tile">
+      <svg viewBox="0 0 120 110" fill="#111816" stroke="#111816" stroke-width="2.5" stroke-linejoin="round" aria-hidden="true">
+        <path class="chev" d="M40.7 2Q48 4.6 55 6.5Q62 4.6 69.6 2Q63 8 55 13.6Q47 8 40.7 2Z"/>
+        <path class="chev" d="M33 17.4Q46 21 58 25Q70 21 83 17.4Q71 27 58 36.7Q45 27 33 17.4Z"/>
+        <path class="chev" d="M4 42.5Q32 55 60 68.5Q88 55 116 42.5Q90 80 60 108Q30 80 4 42.5Z"/>
+      </svg>
+    </div>
+    <div class="loader-word">Flocket<span>Brand discovery</span></div>
+    <div class="loader-bar"><i id="loaderFill"></i></div>
+    <div class="loader-status" id="loaderStatus">Painting the sky</div>
+  </div>
+</div>
+
+<div class="app is-hero" id="app">
+  <header class="topbar">
+    <nav class="navpill" aria-label="Questionnaire">
+      <span class="brand" id="brandMark">Flocket</span>
+      <span class="nav-chapter" id="navChapter">Brand discovery</span>
+      <span class="saved" id="saved" role="status"><i></i><span id="savedText">Autosaves</span></span>
+    </nav>
+  </header>
+
+  <main class="stage" id="stage"></main>
+
+  <footer class="dock">
+    <div class="dock-nav">
+      <button class="icon-btn" id="backBtn" type="button" aria-label="Previous question">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg>
+      </button>
+      <button class="icon-btn" id="fwdBtn" type="button" aria-label="Next question">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+    </div>
+    <div class="flock" id="flock" role="group" aria-label="Chapters"></div>
+    <div class="dock-progress" id="dockProgress">0% complete</div>
+  </footer>
+</div>
+
+<noscript><div class="noscript">This questionnaire needs JavaScript. Please enable it and reload the page.</div></noscript>
+
+<script src="config.js"></script>
+<script src="questions.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

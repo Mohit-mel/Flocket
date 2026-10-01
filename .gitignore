@@ -1,0 +1,4 @@
+tools/deck/
+tools/raw/
+__pycache__/
+.DS_Store
