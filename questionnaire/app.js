@@ -876,7 +876,8 @@
       btn.classList.remove('is-loading');
       btn.innerHTML = original;
       errorBox.hidden = false;
-      errorBox.innerHTML = 'We couldn’t reach the Google Sheet. Check your connection and press Send again. Your answers are still saved on this device. ';
+      errorBox.innerHTML = 'We couldn’t save your answers to the Google Sheet. Press Send again in a moment. Your answers are still saved on this device. ';
+      if (err && err.message) errorBox.appendChild(el('span', 'submit-detail', 'Details: ' + esc(err.message) + ' '));
       const copy = el('button', 'btn-text', 'Copy my answers instead');
       copy.type = 'button';
       copy.addEventListener('click', () => copyAnswers(copy));

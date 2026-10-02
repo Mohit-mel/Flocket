@@ -523,6 +523,7 @@ kbd {
 .submit-note { margin: 18px 0 0; font-size: var(--fs-small); color: var(--ink-2); }
 .submit-error { margin-top: 16px; padding: 14px 16px; border-radius: 16px; background: var(--ember-glass); border: 1px solid #f2a59b; color: var(--ember); font-size: var(--fs-small); }
 .submit-error .btn-text { color: var(--ember); }
+.submit-detail { display: block; margin-block: 6px; font-size: var(--fs-micro); opacity: 0.85; overflow-wrap: anywhere; }
 
 /* Thanks */
 .ghost-word {

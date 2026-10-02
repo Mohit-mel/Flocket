@@ -16,6 +16,9 @@ const RESPONSES_SHEET = 'Responses';
 const KEY_SHEET = 'Questions';
 // Optional: an address that gets an email for every new response. Leave '' to turn off.
 const NOTIFY_EMAIL = '';
+// Only needed if this script was created at script.google.com instead of from the Sheet
+// (Extensions → Apps Script). Paste the Sheet's ID: the long part of its URL between /d/ and /edit.
+const SHEET_ID = '';
 
 const META_COLUMNS = ['submittedAt', 'responseId', 'startedAt', 'minutesSpent', 'questionnaireVersion'];
 
@@ -25,7 +28,7 @@ const META_COLUMNS = ['submittedAt', 'responseId', 'startedAt', 'minutesSpent', 
  * response doesn't have to.
  */
 function setup() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = book_();
   const responses = ss.getSheetByName(RESPONSES_SHEET) || ss.insertSheet(RESPONSES_SHEET, 0);
   ensureHeaders_(responses, META_COLUMNS);
   if (!ss.getSheetByName(KEY_SHEET)) writeKey_(ss, []);
@@ -41,7 +44,7 @@ function doPost(e) {
     const data = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     if (!data.responseId || !data.answers) return json_({ ok: false, error: 'Missing responseId or answers.' });
 
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const ss = book_();
     const sheet = ss.getSheetByName(RESPONSES_SHEET) || ss.insertSheet(RESPONSES_SHEET);
     const order = Array.isArray(data.order) && data.order.length ? data.order : Object.keys(data.answers);
     const headers = ensureHeaders_(sheet, META_COLUMNS.concat(order));
@@ -72,9 +75,20 @@ function doPost(e) {
   }
 }
 
-// Visiting the /exec URL in a browser shows this, which confirms the deployment works.
+// Visiting the /exec URL in a browser shows this. "sheet" names the Sheet that responses go to.
 function doGet() {
-  return json_({ ok: true, service: 'Flocket brand discovery receiver' });
+  try {
+    return json_({ ok: true, service: 'Flocket brand discovery receiver', sheet: book_().getName() });
+  } catch (err) {
+    return json_({ ok: false, error: String(err) });
+  }
+}
+
+function book_() {
+  if (SHEET_ID) return SpreadsheetApp.openById(SHEET_ID);
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (!ss) throw new Error('This script is not attached to a Sheet. Create it from the Sheet (Extensions → Apps Script), or set SHEET_ID at the top of the script.');
+  return ss;
 }
 
 function ensureHeaders_(sheet, wanted) {
